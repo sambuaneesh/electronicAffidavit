@@ -1,0 +1,23 @@
+{
+  "name": "login_register_mern",
+  "version": "1.0.0",
+  "description": "simple website for login and register page with database",
+  "main": "server.js",
+  "scripts": {
+    "client-install": "npm install --prefix client",
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\" \"uvicorn main:app --reload\""
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@mui/material": "^5.10.8",
+    "concurrently": "^7.6.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "mongoose": "^6.6.4"
+  }
+}
