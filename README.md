@@ -28,13 +28,15 @@ npm install
 ## 4.If using conda, setup environment using the following command (recommended method):
 
 ```bash
-conda env create -f environment.yml
+conda create -n newEnv python=3.8
+conda activate newEnv
+pip install -r requirements.txt
 ```
 
 (or)
 
 ### Alternatively, if using pip only, install requirements from the requirements.txt file:
-
+(Highly not recommended)
 ```bash
 pip install -r requirements.txt
 ```
