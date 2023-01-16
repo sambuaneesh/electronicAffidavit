@@ -1,78 +1,78 @@
-import React from "react";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import AppBar from "@mui/material/AppBar";
-import { Grid } from "@mui/material";
-import Legend from "./legend";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
+import React from 'react'
+import Button from '@mui/material/Button'
+import Box from '@mui/material/Box'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+import AppBar from '@mui/material/AppBar'
+import { Grid } from '@mui/material'
+import Legend from './legend'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
+import IconButton from '@mui/material/IconButton'
+import MenuIcon from '@mui/icons-material/Menu'
 
 const Homepage = (props) => {
-  const [selectedFile, setSelectedFile] = useState();
-  const [preview, setPreview] = useState();
-  const [detected, setDetected] = useState();
-  const [semantic, setSemantic] = useState();
-  const [toolslist, setTools] = useState();
-  const [processing1, setProcessing1] = useState(false);
-  const [processing2, setProcessing2] = useState(false);
+  const [selectedFile, setSelectedFile] = useState()
+  const [preview, setPreview] = useState()
+  const [detected, setDetected] = useState()
+  const [semantic, setSemantic] = useState()
+  const [toolslist, setTools] = useState()
+  const [processing1, setProcessing1] = useState(false)
+  const [processing2, setProcessing2] = useState(false)
 
   const onSelectFile = (e) => {
     if (!e.target.files || e.target.files.length === 0) {
-      setSelectedFile(undefined);
-      return;
+      setSelectedFile(undefined)
+      return
     }
-    setDetected();
-    setSemantic();
-    console.log("yo" + e.target.files);
-    setSelectedFile(e.target.files[0]);
-  };
+    setDetected()
+    setSemantic()
+    console.log('yo' + e.target.files)
+    setSelectedFile(e.target.files[0])
+  }
 
   useEffect(() => {
     if (!selectedFile) {
-      setPreview(undefined);
-      return;
+      setPreview(undefined)
+      return
     }
-    console.log(selectedFile);
-    const objectUrl = URL.createObjectURL(selectedFile);
-    console.log(objectUrl);
-    setPreview(objectUrl);
-    return () => URL.revokeObjectURL(objectUrl);
-  }, [selectedFile]);
+    console.log(selectedFile)
+    const objectUrl = URL.createObjectURL(selectedFile)
+    console.log(objectUrl)
+    setPreview(objectUrl)
+    return () => URL.revokeObjectURL(objectUrl)
+  }, [selectedFile])
 
   function sleep(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms))
   }
 
   async function detect() {
     // setProcessing(true);
     // console.log("sleep completed");
     // console.log("processing", new_processing, processing)
-    console.log(selectedFile);
+    console.log(selectedFile)
     const config = {
-      headers: { "content-type": "multipart/form-data" },
-    };
-    let formData = new FormData();
-    formData.append("file", selectedFile);
+      headers: { 'content-type': 'multipart/form-data' },
+    }
+    let formData = new FormData()
+    formData.append('file', selectedFile)
 
     axios
-      .post("http://localhost:8000/object-to-img", formData, config)
+      .post('http://localhost:8000/object-to-img', formData, config)
       // axios.post('http://18.176.111.18:8000/object-to-img', formData, config)
       .then((res) => {
         // console.log(res.data.result);
-        setProcessing1(true);
-        setTools(res.data.result);
-        var encode_image = JSON.parse(res.data.img.body)["image"];
-        var image = new Image();
-        image.src = "data:image/png;base64," + encode_image;
-        console.log(typeof image);
-        setDetected("data:image/png;base64," + encode_image);
-        setProcessing1(false);
+        setProcessing1(true)
+        setTools(res.data.result)
+        var encode_image = JSON.parse(res.data.img.body)['image']
+        var image = new Image()
+        image.src = 'data:image/png;base64,' + encode_image
+        console.log(typeof image)
+        setDetected('data:image/png;base64,' + encode_image)
+        setProcessing1(false)
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
     //     axios.post('http://localhost:8000/image-segmentation', formData, config)
     //         .then(res => {
     //             setProcessing2(true)
@@ -88,9 +88,9 @@ const Homepage = (props) => {
   }
 
   return (
-    <div className="home">
+    <div className="home" style={{ backgroundColor: '#00000' }}>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar style={{ backgroundColor: 'black' }}>
           <IconButton
             size="large"
             edge="start"
@@ -100,8 +100,8 @@ const Homepage = (props) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Vechile - detection
+          <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
+            FACE Recognition
           </Typography>
           <Button
             color="inherit"
@@ -115,7 +115,7 @@ const Homepage = (props) => {
       <Grid
         container
         spacing={2}
-        style={{ paddingLeft: "30px", paddingTop: "10px" }}
+        style={{ paddingLeft: '30px', paddingTop: '10px' }}
       >
         <Grid xs={11}>
           <Typography align="center" variant="h3">
@@ -131,11 +131,11 @@ const Homepage = (props) => {
           {selectedFile && (
             <img
               src={preview}
-              style={{ maxWidth: "800px", maxHeight: "600px" }}
+              style={{ maxWidth: '800px', maxHeight: '600px' }}
             />
           )}
           <br /> <br />
-          <Button variant="contained" color="secondary" onClick={detect}>
+          <Button variant="contained" color="primary" onClick={detect}>
             Detect
           </Button>
           <br />
@@ -146,18 +146,18 @@ const Homepage = (props) => {
         <h1>processing.......</h1>
       ) : (
         <div>
-          {detected && <h1 style={{ paddingLeft: "50px" }}>Detected Image:</h1>}
+          {detected && <h1 style={{ paddingLeft: '50px' }}>Detected Image:</h1>}
           <Grid
             container
             spacing={2}
-            style={{ paddingLeft: "200px", paddingTop: "10px" }}
+            style={{ paddingLeft: '200px', paddingTop: '10px' }}
           >
             <Grid xs={8}>
               <div>
                 {detected && (
                   <img
                     src={detected}
-                    style={{ maxWidth: "800px", maxHeight: "600px" }}
+                    style={{ maxWidth: '800px', maxHeight: '600px' }}
                   />
                 )}
               </div>
@@ -170,8 +170,8 @@ const Homepage = (props) => {
                     {toolslist.length > 0 &&
                       toolslist.map((item) => (
                         <li key={item}>
-                          {" "}
-                          <h3>{item}</h3>{" "}
+                          {' '}
+                          <h3>{item}</h3>{' '}
                         </li>
                       ))}
                   </ul>
@@ -180,20 +180,20 @@ const Homepage = (props) => {
             </Grid>
           </Grid>
           {semantic && (
-            <h1 style={{ paddingLeft: "50px" }}>Segmented Image:</h1>
+            <h1 style={{ paddingLeft: '50px' }}>Segmented Image:</h1>
           )}
           <br />
           <Grid
             container
             spacing={2}
-            style={{ paddingLeft: "200px", paddingTop: "10px" }}
+            style={{ paddingLeft: '200px', paddingTop: '10px' }}
           >
             <Grid xs={8}>
               <div>
                 {semantic && (
                   <img
                     src={semantic}
-                    style={{ maxWidth: "800px", maxHeight: "600px" }}
+                    style={{ maxWidth: '800px', maxHeight: '600px' }}
                   />
                 )}
               </div>
@@ -205,7 +205,7 @@ const Homepage = (props) => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Homepage;
+export default Homepage
